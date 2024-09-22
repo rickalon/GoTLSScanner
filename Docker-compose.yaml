@@ -1,0 +1,28 @@
+version: '3.8'
+services:
+  mongo:
+    image: mongo
+    container_name: mogno
+    environment:
+      MONGO_INITDB_ROOT_USERNAME: ${DBUSER}
+      MONGO_INITDB_ROOT_PASSWORD: ${DBPASS}
+    networks:
+      - apinetwork
+    volumes:
+      - api_data:/var/lib/mongodb 
+  golang-server:
+    image: urlapi
+    container_name: go-server
+    environment:
+      DB_HOST: mongo
+      DB_USERNAME: ${DBUSER}
+      DB_PASSWORD: ${DBPASS}
+    networks:
+      - apinetwork
+    ports:
+      - "8080:8080"
+
+networks:
+  apinetwork:
+volumes:
+  api_data:
