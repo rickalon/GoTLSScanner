@@ -3,6 +3,8 @@ package util
 import (
 	"encoding/json"
 	"net/http"
+
+	"github.com/rickalon/GoWebScraper/data"
 )
 
 type Message struct {
@@ -29,4 +31,10 @@ func ErrorStringToJson(w http.ResponseWriter, statusCode int, err string) {
 	w.Header().Set("Content-Type", "application/json")
 	w.WriteHeader(statusCode)
 	json.NewEncoder(w).Encode(&ErrorMessage{Msg: err})
+}
+
+func WriteURLtoJson(w http.ResponseWriter, urls []*data.UrlObj) {
+	w.Header().Set("Content-Type", "application/json")
+	w.WriteHeader(http.StatusOK)
+	json.NewEncoder(w).Encode(urls)
 }

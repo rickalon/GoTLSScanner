@@ -3,7 +3,6 @@ package handlers
 import (
 	"context"
 	"encoding/json"
-	"fmt"
 	"io"
 	"net/http"
 
@@ -35,14 +34,14 @@ func URLHandler(w http.ResponseWriter, r *http.Request) {
 	ctx, cancel := context.WithCancel(r.Context())
 	defer cancel()
 
-	ch := make(chan string)
+	ch := make(chan *data.UrlObj)
 	//fan in-fan out
-	for _, val := range url.Data {
-		fmt.Println("Procesamos 1 url", val)
-	}
+	go services.UrlProc(ctx, url, ch)
 	//orDone pattern
+	arrUrl := []*data.UrlObj{}
 	for val := range services.OrDone(ctx, ch) {
-		fmt.Println(val)
+		arrUrl = append(arrUrl, val)
 	}
-
+	//return them
+	util.WriteURLtoJson(w, arrUrl)
 }
