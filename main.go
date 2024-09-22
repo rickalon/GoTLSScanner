@@ -23,7 +23,7 @@ func main() {
 	srv := server.NewServer()
 	router := server.NewRouter()
 	subroute := router.CreateSubrouter("/api/v1")
-	router.NewHandlerGet(subroute, "/start", handlers.TestHandler)
-	router.NewHandlerPost(subroute, "/start", handlers.URLDBHandler(database))
+	router.NewHandlerGet(subroute, "/test", handlers.TestHandler)
+	router.NewHandlerPost(subroute, "/analyze", handlers.URLDBHandler(database))
 	log.Fatal(srv.Run(router.Rt))
 }
