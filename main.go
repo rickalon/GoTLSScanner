@@ -12,5 +12,6 @@ func main() {
 	router := server.NewRouter()
 	subroute := router.CreateSubrouter("/api/v1")
 	router.NewHandlerGet(subroute, "/start", handlers.MainHandler)
+	router.NewHandlerPost(subroute, "/start", handlers.URLHandler)
 	log.Fatal(srv.Run(router.Rt))
 }
