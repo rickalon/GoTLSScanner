@@ -34,11 +34,11 @@ func URLHandler(w http.ResponseWriter, r *http.Request) {
 	ctx, cancel := context.WithCancel(r.Context())
 	defer cancel()
 
-	ch := make(chan *data.UrlObj)
+	ch := make(chan *data.URL)
 	//fan in-fan out
 	go services.UrlProc(ctx, url, ch)
 	//orDone pattern
-	arrUrl := []*data.UrlObj{}
+	arrUrl := []*data.URL{}
 	for val := range services.OrDone(ctx, ch) {
 		arrUrl = append(arrUrl, val)
 	}

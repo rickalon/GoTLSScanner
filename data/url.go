@@ -8,7 +8,8 @@ type MockURL struct {
 }
 
 type URL struct {
-	Data []UrlObj
+	UrlName string    `json:"url"`
+	Data    []*UrlObj `json:"urls"`
 }
 
 type UrlObj struct {

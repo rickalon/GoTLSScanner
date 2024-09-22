@@ -9,8 +9,8 @@ import (
 	"github.com/rickalon/GoWebScraper/data"
 )
 
-func OrDone(ctx context.Context, ch <-chan *data.UrlObj) <-chan *data.UrlObj {
-	stream := make(chan *data.UrlObj)
+func OrDone(ctx context.Context, ch <-chan *data.URL) <-chan *data.URL {
+	stream := make(chan *data.URL)
 	go func() {
 		defer close(stream)
 		for {
@@ -32,7 +32,7 @@ func OrDone(ctx context.Context, ch <-chan *data.UrlObj) <-chan *data.UrlObj {
 	return stream
 }
 
-func UrlProc(ctx context.Context, url *data.MockURL, ch chan<- *data.UrlObj) {
+func UrlProc(ctx context.Context, url *data.MockURL, ch chan<- *data.URL) {
 	defer close(ch)
 	var wg sync.WaitGroup
 	ctxTo, cancel := context.WithTimeout(ctx, time.Second*10)
@@ -45,7 +45,7 @@ func UrlProc(ctx context.Context, url *data.MockURL, ch chan<- *data.UrlObj) {
 	wg.Wait()
 }
 
-func proc(wg *sync.WaitGroup, url string, ch chan<- *data.UrlObj, ctx context.Context) {
+func proc(wg *sync.WaitGroup, url string, ch chan<- *data.URL, ctx context.Context) {
 	defer wg.Done()
 	select {
 	case <-ctx.Done():
@@ -53,21 +53,16 @@ func proc(wg *sync.WaitGroup, url string, ch chan<- *data.UrlObj, ctx context.Co
 	default:
 		resp, err := http.Get(url)
 		if err != nil {
-			ch <- &data.UrlObj{
-				Url:    url,
-				Result: "Url not found",
-			}
+			ch <- &data.URL{UrlName: url}
 			return
 		}
 		defer resp.Body.Close()
 		tls := resp.TLS
 		if tls == nil {
-			ch <- &data.UrlObj{
-				Url:    url,
-				Result: "Tls not found",
-			}
+			ch <- &data.URL{UrlName: url}
 			return
 		}
+		resContainer := &data.URL{UrlName: url}
 		for _, cert := range tls.PeerCertificates {
 			res := &data.UrlObj{
 				Url:     url,
@@ -81,8 +76,9 @@ func proc(wg *sync.WaitGroup, url string, ch chan<- *data.UrlObj, ctx context.Co
 				DNS:     cert.DNSNames,
 				IsCA:    cert.IsCA,
 			}
-			ch <- res
+			resContainer.Data = append(resContainer.Data, res)
 		}
+		ch <- resContainer
 		return
 	}
 

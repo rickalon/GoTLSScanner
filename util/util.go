@@ -33,7 +33,7 @@ func ErrorStringToJson(w http.ResponseWriter, statusCode int, err string) {
 	json.NewEncoder(w).Encode(&ErrorMessage{Msg: err})
 }
 
-func WriteURLtoJson(w http.ResponseWriter, urls []*data.UrlObj) {
+func WriteURLtoJson(w http.ResponseWriter, urls []*data.URL) {
 	w.Header().Set("Content-Type", "application/json")
 	w.WriteHeader(http.StatusOK)
 	json.NewEncoder(w).Encode(urls)
