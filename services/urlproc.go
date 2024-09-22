@@ -54,8 +54,11 @@ func proc(wg *sync.WaitGroup, url string, ch chan<- *data.URL, ctx context.Conte
 		return
 	default:
 		if persistance.IsON() {
-			persistance.GetUrl(ctx, url)
-			return
+			err, res := persistance.GetUrl(ctx, url)
+			if err == nil {
+				ch <- res
+				return
+			}
 		}
 		resp, err := http.Get(url)
 		if err != nil {

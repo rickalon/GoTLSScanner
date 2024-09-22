@@ -2,8 +2,6 @@ package db
 
 import (
 	"context"
-	"fmt"
-	"log"
 	"time"
 
 	"github.com/rickalon/GoWebScraper/data"
@@ -13,7 +11,7 @@ import (
 )
 
 type DB interface {
-	GetUrl(context.Context, string) error
+	GetUrl(context.Context, string) (error, *data.URL)
 	InsertOne(context.Context, ...any) error
 	CreateDB()
 	IsON() bool
@@ -35,21 +33,12 @@ func runConnection(ctxOpt context.Context, prefix string) (*mongo.Client, error)
 	return mongo.Connect(ctx, options.Client().ApplyURI(prefix))
 }
 
-func (m *MongoDB) GetUrl(ctx context.Context, str string) error {
-	filter := bson.M{"url": "https://www.google.com/"}
-	// Recuperar el documento
+func (m *MongoDB) GetUrl(ctx context.Context, url string) (error, *data.URL) {
+	filter := bson.M{"urlname": url}
 	var result *data.URL
 	err := m.MongoCollection.FindOne(ctx, filter).Decode(&result)
-	if err != nil {
-		if err == mongo.ErrNoDocuments {
-			fmt.Println("No se encontraron documentos")
-		} else {
-			log.Fatal("Error recuperando documento:", err)
-		}
-	} else {
-		fmt.Println("Documento recuperado:", result)
-	}
-	return nil
+
+	return err, result
 }
 
 func (m *MongoDB) CreateDB() {
