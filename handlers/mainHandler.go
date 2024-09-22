@@ -7,41 +7,46 @@ import (
 	"net/http"
 
 	"github.com/rickalon/GoWebScraper/data"
+	"github.com/rickalon/GoWebScraper/db"
 	"github.com/rickalon/GoWebScraper/services"
 	"github.com/rickalon/GoWebScraper/util"
 )
 
-func MainHandler(w http.ResponseWriter, r *http.Request) {
-	msg := "Mensaje de prueba"
+func TestHandler(w http.ResponseWriter, r *http.Request) {
+	msg := "test msg"
 	util.MsgToJson(w, msg)
 }
 
-func URLHandler(w http.ResponseWriter, r *http.Request) {
+func URLDBHandler(persistance db.DB) http.HandlerFunc {
 
-	body, err := io.ReadAll(r.Body)
-	defer r.Body.Close()
+	return func(w http.ResponseWriter, r *http.Request) {
 
-	if err != nil {
-		util.ErrorToJson(w, 500, err)
-		return
-	}
-	url := data.NewURL()
-	err = json.Unmarshal(body, url)
-	if err != nil {
-		util.ErrorToJson(w, 500, err)
-		return
-	}
-	ctx, cancel := context.WithCancel(r.Context())
-	defer cancel()
+		body, err := io.ReadAll(r.Body)
+		defer r.Body.Close()
 
-	ch := make(chan *data.URL)
-	//fan in-fan out
-	go services.UrlProc(ctx, url, ch)
-	//orDone pattern
-	arrUrl := []*data.URL{}
-	for val := range services.OrDone(ctx, ch) {
-		arrUrl = append(arrUrl, val)
+		if err != nil {
+			util.ErrorToJson(w, 500, err)
+			return
+		}
+		url := data.NewURL()
+		err = json.Unmarshal(body, url)
+		if err != nil {
+			util.ErrorToJson(w, 500, err)
+			return
+		}
+		ctx, cancel := context.WithCancel(r.Context())
+		defer cancel()
+
+		ch := make(chan *data.URL)
+		//fan in-fan out
+		go services.UrlProc(ctx, url, ch, persistance)
+		//orDone pattern
+		arrUrl := []*data.URL{}
+
+		for val := range services.OrDone(ctx, ch) {
+			arrUrl = append(arrUrl, val)
+		}
+		//return them
+		util.WriteURLtoJson(w, arrUrl)
 	}
-	//return them
-	util.WriteURLtoJson(w, arrUrl)
 }
