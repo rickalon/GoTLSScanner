@@ -3,18 +3,31 @@ package handlers
 import (
 	"context"
 	"encoding/json"
+	"fmt"
 	"io"
 	"net/http"
 
 	"github.com/rickalon/GoWebScraper/data"
 	"github.com/rickalon/GoWebScraper/db"
 	"github.com/rickalon/GoWebScraper/services"
+	"github.com/rickalon/GoWebScraper/settings"
 	"github.com/rickalon/GoWebScraper/util"
 )
 
 func TestHandler(w http.ResponseWriter, r *http.Request) {
+	util.MsgToJson(w, "Test endpoint")
+}
+
+func Callback(w http.ResponseWriter, r *http.Request) {
 	msg := "test msg"
-	util.MsgToJson(w, msg)
+	fmt.Println(msg)
+}
+
+func Oauth2Login(w http.ResponseWriter, r *http.Request) {
+
+	url := settings.OauthConfig.AuthCodeURL(settings.OauthStateString)
+	fmt.Println(settings.OauthConfig)
+	http.Redirect(w, r, url, http.StatusTemporaryRedirect)
 }
 
 func URLDBHandler(persistance db.DB) http.HandlerFunc {
