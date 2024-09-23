@@ -12,9 +12,9 @@ To enhance efficiency, a MongoDB storage solution is implemented to persist the 
 - **Endpoint**: `GET /oauth2/`
 - **Response**:
       ```json
-          {
-              "ACCESS_TOKEN": "TOKEN"
-          }
+          
+        {"message":"ACCESS TOKEN:gho...1uMhks"}
+          
       ```
 ## Submit URLs for Analysis
 - **Description**: This endpoint will get each url in the body and will perform an analysis of the associated TLS certificate, returning all of the certificates found for each url, and storing them in mongoDB
