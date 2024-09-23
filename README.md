@@ -7,7 +7,17 @@ API that enables users to input an array of URLs. For each URL provided, the app
 To enhance efficiency, a MongoDB storage solution is implemented to persist the URLs. This allows users to avoid repeated and expensive GET calls, improving overall performance. Additionally, a login and registration system using OAuth2 is integrated, ensuring secure access for users and managing their sessions effectively.
 
 # Endpoints
+## Get Oauth2 access token by login in github
+- **Description**: This endpoint initiates the OAuth2 flow by redirecting the user to GitHub for authentication. After successful login, GitHub provides an authorization code which will be exchanged for an Access Token
+- **Endpoint**: `GET /oauth2/`
+- **Response**:
+      ```json
+          {
+              "ACCESS_TOKEN": "TOKEN"
+          }
+      ```
 ## Submit URLs for Analysis
+- **Description**: This endpoint will get each url in the body and will perform an analysis of the associated TLS certificate, returning all of the certificates found for each url, and storing them in mongoDB
 - **Endpoint**: `POST /api/v1/tlsca`
 - **Request Body**:
     ```json
