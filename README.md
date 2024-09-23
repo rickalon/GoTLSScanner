@@ -11,11 +11,9 @@ To enhance efficiency, a MongoDB storage solution is implemented to persist the 
 - **Description**: This endpoint initiates the OAuth2 flow by redirecting the user to GitHub for authentication. After successful login, GitHub provides an authorization code which will be exchanged for an Access Token
 - **Endpoint**: `GET /oauth2/`
 - **Response**:
-      ```json
-          
+  ```json
         {"message":"ACCESS TOKEN:gho...1uMhks"}
-          
-      ```
+   ```
 ## Submit URLs for Analysis
 - **Description**: This endpoint will get each url in the body and will perform an analysis of the associated TLS certificate, returning all of the certificates found for each url, and storing them in mongoDB
 - **Endpoint**: `POST /api/v1/tlsca`
