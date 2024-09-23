@@ -1,5 +1,5 @@
 # Go HTTPS TLS Scanner API
-![image](https://github.com/user-attachments/assets/41ac172b-54d7-46d2-89cb-1f597f0e8be8)
+![image](https://github.com/user-attachments/assets/e47dc7c7-6e71-400a-9295-9fbe102400aa)
 
 # Description 
 API that enables users to input an array of URLs. For each URL provided, the application performs an analysis of the associated TLS certificates. It retrieves and organizes detailed information about each certificate, including its subject's common name, issuer, expiration and issuance dates, public key algorithm, and any associated DNS names. This tool helps users monitor and assess the security of their URLs by providing insights into the certificates that secure their connections.
