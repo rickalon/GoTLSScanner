@@ -8,7 +8,7 @@ To enhance efficiency, a MongoDB storage solution is implemented to persist the 
 
 # Endpoints
 ## Submit URLs for Analysis
-- **Endpoint**: `POST /api/v1/analyze`
+- **Endpoint**: `POST /api/v1/tlsca`
 - **Request Body**:
     ```json
     {
@@ -37,81 +37,7 @@ To enhance efficiency, a MongoDB storage solution is implemented to persist the 
         "alg": "ECDSA",
         "dns": [
           "imgio.trivago.com",
-          "www.youzhan.com",
-          "www.trivago.vn",
-          "www.trivago.tw",
-          "www.trivago.tv",
-          "www.trivago.sk",
-          "www.trivago.si",
-          "www.trivago.sg",
-          "www.trivago.se",
-          "www.trivago.rs",
-          "www.trivago.ro",
-          "www.trivago.pt",
-          "www.trivago.pl",
-          "www.trivago.ph",
-          "www.trivago.pe",
-          "www.trivago.no",
-          "www.trivago.nl",
-          "www.trivago.net",
-          "www.trivago.mx",
-          "www.trivago.kr",
-          "www.trivago.jp",
-          "www.trivago.jobs",
-          "www.trivago.it",
-          "www.trivago.in",
-          "www.trivago.ie",
-          "www.trivago.hu",
-          "www.trivago.hr",
-          "www.trivago.hk",
-          "www.trivago.gr",
-          "www.trivago.fr",
-          "www.trivago.fi",
-          "www.trivago.es",
-          "www.trivago.ec",
-          "www.trivago.dk",
-          "www.trivago.de",
-          "www.trivago.cz",
-          "www.trivago.com.vn",
-          "www.trivago.com.uy",
-          "www.trivago.com.tw",
-          "www.trivago.com.tr",
-          "www.trivago.com.sg",
-          "www.trivago.com.pt",
-          "www.trivago.com.ph",
-          "www.trivago.com.pe",
-          "www.trivago.com.my",
-          "www.trivago.com.mx",
-          "www.trivago.com.hr",
-          "www.trivago.com.hk",
-          "www.trivago.com.ec",
-          "www.trivago.com.cy",
-          "www.trivago.com.co",
-          "www.trivago.com.br",
-          "www.trivago.com.au",
-          "www.trivago.com.ar",
-          "www.trivago.com",
-          "www.trivago.co.za",
-          "www.trivago.co.uk",
-          "www.trivago.co.th",
-          "www.trivago.co.nz",
-          "www.trivago.co.kr",
-          "www.trivago.co.in",
-          "www.trivago.co.il",
-          "www.trivago.co.id",
-          "www.trivago.cl",
-          "www.trivago.ch",
-          "www.trivago.cat",
-          "www.trivago.ca",
-          "www.trivago.bg",
-          "www.trivago.be",
-          "www.trivago.at",
-          "www.trivago.ae",
-          "jsa.youzhan.com",
-          "jsa.trivago.com",
-          "imgio.youzhan.com",
-          "imgim.youzhan.com",
-          "imgim.trivago.com",
+          (...)
           "imgcy.youzhan.com",
           "ar.trivago.com"
         ],
@@ -193,5 +119,6 @@ Configure the enviroment variables that the api and mongo are going to use
  - DBPASS=example
  - DBPORT=27017
  - DBHOST=localhost
+
 Run de dockercompose file.
 You can deploy the application in any cloud provider.
