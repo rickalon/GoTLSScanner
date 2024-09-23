@@ -61,6 +61,7 @@ func proc(wg *sync.WaitGroup, url string, ch chan<- *data.URL, ctx context.Conte
 			}
 		}
 		resp, err := http.Get(url)
+		defer resp.Body.Close()
 		if err != nil {
 			res := &data.URL{UrlName: url}
 			ch <- res
