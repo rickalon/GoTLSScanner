@@ -25,7 +25,7 @@ func main() {
 	router := server.NewRouter()
 	subroute := router.CreateSubrouter("/api/v1")
 	router.NewHandlerGet(subroute, "/test", handlers.TestHandler)
-	router.NewHandlerPost(subroute, "/analyze", handlers.URLDBHandler(database))
+	router.NewHandlerPost(subroute, "/tlsca", handlers.URLDBHandler(database))
 	subrouteOauth := router.CreateSubrouter("/oauth2")
 	router.NewHandlerGet(subrouteOauth, "/", handlers.Oauth2Login)
 	router.NewHandlerGet(subrouteOauth, "/callback", handlers.Callback)
